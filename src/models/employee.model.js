@@ -54,7 +54,15 @@ Employee.createEmployee = (employeeReqData, result) => {
 
 // Update Employee
 Employee.updateEmployee = (id, employeeReqData, result) => {
-    dbConnect.query()
+    dbConnect.query("UPDATE employees SET first_name=?,last_name=?,email=?,phone=?,organization=?,designation=?,salary=? WHERE id = ?", [employeeReqData.first_name, employeeReqData.last_name, employeeReqData.email, employeeReqData.phone, employeeReqData.organization, employeeReqData.designation, employeeReqData.salary, id], (err, res) => {
+        if (err) {
+            console.log('Error while updating the employee data!', err);
+            result(null, err);
+        } else {
+            console.log('Employee updated successfully!');
+            result(null, res);
+        }
+    });
 };
 
 module.exports = Employee;
