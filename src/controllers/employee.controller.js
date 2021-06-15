@@ -1,3 +1,4 @@
+const Employee = require('../models/employee.model');
 const EmployeeModel = require('../models/employee.model');
 
 // List of Employees
@@ -21,4 +22,42 @@ module.exports.getEmployeeByID = (req, res) => {
 
         res.send(employee);
     });
+};
+
+// Create New Employee
+
+module.exports.createNewEmployee = (req, res) => {
+    const employeeReqData = new EmployeeModel(req.body);
+
+    if (req.body.constructor === Object && Object(req.body).length === 0) {
+        res.send(400).send({ success: false, message: 'Please fill all fields' });
+    } else {
+        EmployeeModel.createEmployee(employeeReqData, (err, employee) => {
+            if (err) {
+                return res.send(err);
+                res.json({ status: false, message: 'Something went wrong!', data: employee });
+            }
+
+            res.send(employee);
+        });
+    }
+};
+
+// Update Employee
+
+module.exports.updateEmployee = (req, res) => {
+    const employeeReqData = new EmployeeModel(req.body);
+
+    if (req.body.constructor === Object && Object(req.body).length === 0) {
+        res.send(400).send({ success: false, message: 'Please fill all fields' });
+    } else {
+        EmployeeModel.updateEmployee(req.params.id, employeeReqData, (err, employee) => {
+            if (err) {
+                return res.send(err);
+                res.json({ status: false, message: 'Something went wrong!', data: employee });
+            }
+
+            res.send(employee);
+        });
+    }
 };

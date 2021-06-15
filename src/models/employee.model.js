@@ -1,6 +1,6 @@
 const dbConnect = require('../config/db.config');
 
-const Employee = (employee) => {
+const Employee = function (employee) {
     this.first_name = employee.first_name;
     this.last_name = employee.last_name;
     this.email = employee.email;
@@ -37,6 +37,24 @@ Employee.getEmployeeById = (id, result) => {
             result(null, res);
         }
     });
+};
+
+// Create New Employee
+Employee.createEmployee = (employeeReqData, result) => {
+    dbConnect.query('INSERT INTO employees SET ? ', employeeReqData, (err, res) => {
+        if (err) {
+            console.log('Error while inserting data!', err);
+            result(null, err);
+        } else {
+            console.log('Employee created successfully!');
+            result(null, res);
+        }
+    });
+};
+
+// Update Employee
+Employee.updateEmployee = (id, employeeReqData, result) => {
+    dbConnect.query()
 };
 
 module.exports = Employee;
