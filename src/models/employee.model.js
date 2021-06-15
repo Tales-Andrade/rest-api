@@ -24,6 +24,19 @@ Employee.getAllEmployees = (result) => {
             result(null, res);
         }
     });
-}
+};
+
+// Get Employee By Id
+Employee.getEmployeeById = (id, result) => {
+    dbConnect.query('SELECT * FROM employees WHERE id=?', id, (err, res) => {
+        if (err) {
+            console.log('Error while fetching employee by id!', err);
+            result(null, err);
+        } else {
+            console.log('Employee fetched successfully!');
+            result(null, res);
+        }
+    });
+};
 
 module.exports = Employee;
