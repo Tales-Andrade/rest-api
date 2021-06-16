@@ -11,7 +11,7 @@ const Employee = function (employee) {
     this.status = employee.status ? employee.status : 1;
     this.created_at = new Date();
     this.updated_at = new Date();
-}
+};
 
 // Get All Employees
 Employee.getAllEmployees = (result) => {
@@ -63,6 +63,29 @@ Employee.updateEmployee = (id, employeeReqData, result) => {
             result(null, res);
         }
     });
+};
+
+// Delete Employee
+Employee.deleteEmployee = (id, result) => {
+    dbConnect.query('DELETE FROM employees WHERE id=?', [id], (err, res) => {
+        if (err) {
+            console.log('Error while deleting the employee!');
+            result(null, err);
+        } else {
+            console.log('Employee deleted successfully!');
+            result(null, res);
+        }
+    });
+
+    // dbConnect.query("UPDATE employees SET is_deleted=? WHERE id = ?", [1, id], (err, res)=>{
+    //     if(err){
+    //         console.log('Error while deleting the employee');
+    //         result(null, err);
+    //     }else{
+    //         console.log("Employee deleted successfully");
+    //         result(null, res);
+    //     }
+    // });
 };
 
 module.exports = Employee;

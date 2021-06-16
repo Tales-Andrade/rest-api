@@ -13,7 +13,6 @@ module.exports.getEmployeeList = (req, res) => {
 };
 
 // Get Employee by ID
-
 module.exports.getEmployeeByID = (req, res) => {
     EmployeeModel.getEmployeeById(req.params.id, (err, employee) => {
         if (err) {
@@ -25,7 +24,6 @@ module.exports.getEmployeeByID = (req, res) => {
 };
 
 // Create New Employee
-
 module.exports.createNewEmployee = (req, res) => {
     const employeeReqData = new EmployeeModel(req.body);
 
@@ -35,16 +33,14 @@ module.exports.createNewEmployee = (req, res) => {
         EmployeeModel.createEmployee(employeeReqData, (err, employee) => {
             if (err) {
                 return res.send(err);
-                res.json({ status: false, message: 'Something went wrong!', data: employee });
             }
 
-            res.send(employee);
+            res.json({ status: false, message: 'Employee created successfully!', data: employee.insertId });
         });
     }
 };
 
 // Update Employee
-
 module.exports.updateEmployee = (req, res) => {
     const employeeReqData = new EmployeeModel(req.body);
 
@@ -54,10 +50,20 @@ module.exports.updateEmployee = (req, res) => {
         EmployeeModel.updateEmployee(req.params.id, employeeReqData, (err, employee) => {
             if (err) {
                 return res.send(err);
-                res.json({ status: false, message: 'Something went wrong!', data: employee });
             }
 
-            res.send(employee);
+            res.json({ status: true, message: 'Employee updated successfully!' });
         });
     }
+};
+
+// Delete Employee
+module.exports.deleteEmployee = (req, res) => {
+    EmployeeModel.deleteEmployee(req.params.id, (err, employee) => {
+        if (err) {
+            return res.send(err);
+        }
+
+        res.json({ status: true, message: 'Employee deleted successfully!' });
+    });
 };
